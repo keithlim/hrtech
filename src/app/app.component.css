@@ -1,0 +1,24 @@
+mat-toolbar {
+    position: sticky;
+    z-index: 2;
+    top: 0;
+}
+
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+mat-sidenav {
+    padding: 15px;
+}
+
+mat-toolbar button {
+    visibility: hidden !important;
+    margin-right: 12px;
+}
+
+@media (max-width: 767px) {
+    mat-icon {
+        visibility: visible !important;
+    }
+}

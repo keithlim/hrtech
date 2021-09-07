@@ -1,0 +1,34 @@
+<mat-toolbar color="primary">
+
+    <span>
+        HrTech
+    </span>
+
+    <span class="example-spacer"></span>
+
+    <button mat-icon-button>
+        <mat-icon (click)="sideNav.toggle()">menu</mat-icon>
+    </button>
+
+</mat-toolbar>
+
+<mat-sidenav-container>
+
+    <mat-sidenav #sideNav fixedTopGap="55" [opened]="opened" [mode]="isBiggerScreen() ? 'side' : 'over'"
+        fixedInViewport="true">
+        <mat-nav-list>
+            <a mat-list-item>
+                <mat-icon>file_upload</mat-icon>&nbsp;<span>Upload File</span>
+            </a>
+            <mat-divider></mat-divider>
+            <a mat-list-item>
+                <mat-icon>description</mat-icon>&nbsp;<span>View Employees</span>
+            </a>
+        </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+
+</mat-sidenav-container>
