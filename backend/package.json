@@ -13,8 +13,11 @@
   "author": "keith",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-promise-router": "^4.1.0",
+    "fast-csv": "^4.3.6",
+    "multer": "^1.4.3",
     "pg": "^8.7.1"
   }
 }
