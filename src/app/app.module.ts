@@ -4,10 +4,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgMaterialModule } from './ng-material.module';
+import { UploadComponent } from './components/upload/upload.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    UploadComponent
   ],
   imports: [
     BrowserModule,

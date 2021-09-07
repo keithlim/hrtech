@@ -8,8 +8,17 @@ mat-toolbar {
     flex: 1 1 auto;
 }
 
-mat-sidenav {
+mat-sidenav, mat-sidenav-content {
     padding: 15px;
+}
+
+a {
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+
+.mat-list-item.active {
+    background: rgba(0, 0, 0, .04);
 }
 
 mat-toolbar button {
