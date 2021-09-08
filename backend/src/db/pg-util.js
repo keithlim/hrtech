@@ -1,13 +1,9 @@
 const { Pool } = require('pg');
 
-const isProduction = process.env.NODE_ENV === "PRODUCTION";
 const connectionString = `postgresql://${process.env.PG_USER}:${process.env.PG_PASSWORD}@${process.env.PG_HOST}:${process.env.PG_PORT}/${process.env.PG_DATABASE}`;
 
 const pool = new Pool({
-    connectionString: isProduction ? process.env.DATABASE_URL : connectionString,
-    ssl: {
-        rejectUnauthorized: false,
-    },
+    connectionString: connectionString,
     connectionTimeoutMillis: 0, // how long to wait if no connections available
     idleTimeoutMillis: 5000 // how long to wait till disconnecting idle connections
 });
@@ -21,7 +17,7 @@ pool.on('error', (err, client) => {
 })
 
 pool.on('connect', () => {
-    console.log('Connected to database successfully.');
+    // console.log('Connected to database successfully.');
 });
 
 module.exports = {

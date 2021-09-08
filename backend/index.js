@@ -1,3 +1,6 @@
+const dotenv = require('dotenv');
+dotenv.config();
+
 global.__basedir = __dirname + "/..";
 
 const app = require('./src/app');
