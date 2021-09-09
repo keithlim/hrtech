@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgMaterialModule } from './ng-material.module';
 import { UploadComponent } from './components/upload/upload.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { UploadComponent } from './components/upload/upload.component';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    NgMaterialModule
+    NgMaterialModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

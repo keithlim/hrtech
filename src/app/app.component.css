@@ -12,6 +12,10 @@ mat-sidenav, mat-sidenav-content {
     padding: 15px;
 }
 
+mat-sidenav-content {
+    height: 87vh;
+}
+
 a {
     margin-top: 1%;
     margin-bottom: 1%;

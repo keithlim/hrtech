@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { CSVRecord } from 'src/app/interfaces/CSVMODEL';
+import { UploadService } from 'src/app/services/upload/upload.service';
 
 @Component({
   selector: 'app-upload',
@@ -8,86 +8,69 @@ import { CSVRecord } from 'src/app/interfaces/CSVMODEL';
 })
 export class UploadComponent implements OnInit {
 
-  constructor() { }
+  public currentCsvFile: any;
+  public uploading: boolean = false;
+  public rspSuccessStatus: boolean;
+  public rspFailStatus: string;
+
+  // in case need to reset element
+  @ViewChild('csvReader') csvReader: any;
+
+  constructor(
+    private uploadService: UploadService
+  ) { }
 
   ngOnInit(): void {
   }
 
-  uploadCSV() {
-    console.log(`uploading logic`);
+  csvFileListener($event: any): void {
+    let file = $event.target.files.item(0);
+
+    if (this.isValidCSVFile(file)) {
+      // reset ui
+      this.rspSuccessStatus = false;
+      this.rspFailStatus = null;
+
+      this.currentCsvFile = file;
+    } else {
+      alert("Please import valid .csv file.");
+      this.fileReset();
+    }
   }
 
-  // public records: any[] = [];
-  // @ViewChild('csvReader') csvReader: any;
+  upload() {
+    this.rspSuccessStatus = false;
+    this.rspFailStatus = null;
+    this.uploading = true;
 
-  // uploadListener($event: any): void {
+    const uploadedFile = new FormData();
+    uploadedFile.append('file', new Blob([this.currentCsvFile], { type: 'text/csv' }), this.currentCsvFile.name);
 
-  //   let files = $event.srcElement.files;
+    this.uploadService.uploadCsv(uploadedFile).subscribe(
+      rsp => {
+        if (rsp) { // check if error detected; no error would mean null rsp
+          if (rsp.error) {
+            this.rspFailStatus = rsp.error.message;
+          }
+        } else {
+          this.rspSuccessStatus = true;
+        }
 
-  //   if (this.isValidCSVFile(files[0])) {
-  //     let input = $event.target;
-  //     let reader = new FileReader();
+        this.uploading = false;
+      },
+      err => {
+        console.error(err);
+        this.uploading = false;
+      }
+    );
+  }
 
-  //     reader.readAsText(input.files[0]);
+  isValidCSVFile(file: any) {
+    return file.name.endsWith(".csv");
+  }
 
-  //     // This event is triggered each time the reading operation is successfully completed.
-  //     reader.onload = () => {
-  //       let csvData = reader.result;
-  //       let csvRecordsArray = (<string>csvData).split(/\r\n|\n/);
-  //       let headersRow = this.getHeaderArray(csvRecordsArray);
-  //       this.records = this.getDataRecordsArrayFromCSVFile(csvRecordsArray, headersRow.length);
-  //       console.log(this.records);
-  //     };
-
-  //     // This event is triggered each time the reading operation encounter an error.
-  //     reader.onerror = () => {
-  //       console.log('error is occured while reading file!');
-  //     };
-
-  //   } else {
-  //     alert("Please import valid .csv file.");
-  //     this.fileReset();
-  //   }
-
-  // }
-
-  // getDataRecordsArrayFromCSVFile(csvRecordsArray: any, headerLength: any) {
-  //   let csvArr = [];
-
-  //   for (let i = 1; i < csvRecordsArray.length; i++) {
-  //     let curruntRecord = (<string>csvRecordsArray[i]).split(',');
-
-  //     if (curruntRecord.length == headerLength) {
-  //       let csvRecord: CSVRecord = new CSVRecord();
-  //       csvRecord.id = curruntRecord[0].trim();
-  //       csvRecord.firstName = curruntRecord[1].trim();
-  //       csvRecord.lastName = curruntRecord[2].trim();
-  //       csvRecord.age = curruntRecord[3].trim();
-  //       csvRecord.position = curruntRecord[4].trim();
-  //       csvRecord.mobile = curruntRecord[5].trim();
-  //       csvArr.push(csvRecord);
-  //     }
-  //   }
-
-  //   return csvArr;
-  // }
-
-  // isValidCSVFile(file: any) {
-  //   return file.name.endsWith(".csv");
-  // }
-
-  // getHeaderArray(csvRecordsArr: any) {
-  //   let headers = (<string>csvRecordsArr[0]).split(',');
-  //   let headerArray = [];
-  //   for (let j = 0; j < headers.length; j++) {
-  //     headerArray.push(headers[j]);
-  //   }
-  //   return headerArray;
-  // }
-
-  // fileReset() {
-  //   this.csvReader.nativeElement.value = "";
-  //   this.records = [];
-  // }
+  fileReset() {
+    this.csvReader.nativeElement.value = "";
+  }
 
 }

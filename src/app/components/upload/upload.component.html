@@ -1,5 +1,49 @@
-<div id="upload-btn">
-    <button (click)="uploadCSV()" mat-raised-button color="warn">UPLOAD</button>
-</div>
+<div id="info-panel">
+    <mat-card class="upload-card">
 
-<!-- <input type="file" #csvReader name="Upload CSV" id="txtFileUpload" (change)="uploadListener($event)" accept=".csv" /> -->
+        <mat-card-title>
+            <h1>
+                <b>CSV File: </b>
+                <span *ngIf="!currentCsvFile">No File Selected.</span>
+                <span *ngIf="currentCsvFile">{{currentCsvFile.name}}</span>
+            </h1>
+
+            <h1 *ngIf="rspSuccessStatus || rspFailStatus">
+                <b>Status: </b>
+                <mat-chip-list>
+                    <mat-chip *ngIf="rspSuccessStatus" class="success-chip" selected>
+                        File uploaded successfully.
+                    </mat-chip>
+                    <mat-chip *ngIf="rspFailStatus" color="warn" selected>
+                        Failed to upload file.
+                    </mat-chip>
+                </mat-chip-list>
+            </h1>
+
+            <h1 *ngIf="rspFailStatus">
+                <b>Reason: </b>
+                <span>
+                    {{rspFailStatus}}
+                </span>
+            </h1>
+        </mat-card-title>
+
+        <mat-divider inset></mat-divider>
+
+        <mat-card-actions>
+            <label for="file-upload" class="file-upload-btn">
+                Select a .CSV File
+            </label>
+            <input #csvReader id="file-upload" type="file" (change)="csvFileListener($event)" accept=".csv" />
+
+            <button [disabled]="!currentCsvFile" mat-fab color="primary" (click)="upload()">
+                <mat-icon>upload</mat-icon>
+            </button>
+        </mat-card-actions>
+
+        <mat-card-footer *ngIf="uploading">
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </mat-card-footer>
+
+    </mat-card>
+</div>
