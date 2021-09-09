@@ -20,7 +20,7 @@ export class UploadService {
 
   uploadCsv(file: any): Observable<any> {
     return this.httpClient.post<any>(this.baseUrl + "/upload", file).pipe(
-      catchError(this.utilityService.handleError<any>("uploadCsv"))
+      catchError(this.utilityService.handleError<any>("uploadCsv()"))
     );
   }
 

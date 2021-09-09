@@ -1,0 +1,18 @@
+#salary-filter {}
+
+#min-salary-input, #max-salary-input, #view-btn, mat-form-field, .mat-elevation-z8 {
+    margin-left: 1rem;
+}
+
+table {
+    width: 100%;
+}
+
+td, th {
+    width: 25%;
+}
+
+#loadMoreBtn {
+    margin-top: 1rem;
+    float: right;
+}
