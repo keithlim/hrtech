@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { UtilityService } from '../utility/utility.service';
 
 @Injectable({
@@ -20,7 +20,7 @@ export class UploadService {
 
   uploadCsv(file: any): Observable<any> {
     return this.httpClient.post<any>(this.baseUrl + "/upload", file).pipe(
-      catchError(this.utilityService.handleError<any>("uploadCsv()"))
+      catchError(this.utilityService.handleError)
     );
   }
 

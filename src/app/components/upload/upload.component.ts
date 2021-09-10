@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { UploadService } from 'src/app/services/upload/upload.service';
 
 @Component({
@@ -17,7 +18,8 @@ export class UploadComponent implements OnInit {
   @ViewChild('csvReader') csvReader: any;
 
   constructor(
-    private uploadService: UploadService
+    private uploadService: UploadService,
+    private _snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -60,6 +62,7 @@ export class UploadComponent implements OnInit {
       },
       err => {
         console.error(err);
+        this.openSnackBar("Application error occured! Please refresh and try again.", "Close");
         this.uploading = false;
       }
     );
@@ -71,6 +74,10 @@ export class UploadComponent implements OnInit {
 
   fileReset() {
     this.csvReader.nativeElement.value = "";
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action);
   }
 
 }
