@@ -7,7 +7,7 @@ var storage = multer.diskStorage({
     },
     filename: (req, file, callback) => {
         // prevent duplicates
-        callback(null, file.originalname + '-' + Date.now());
+        callback(null, Date.now() + '-' + file.originalname);
     },
 });
 
