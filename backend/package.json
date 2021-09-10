@@ -4,7 +4,7 @@
   "description": "A Node.js backend complementing the HrTech Web Application.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "PG_DATABASE=test_hrtech mocha --exit"
   },
   "keywords": [
     "node.js",
@@ -20,5 +20,10 @@
     "fast-csv": "^4.3.6",
     "multer": "^1.4.3",
     "pg": "^8.7.1"
+  },
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "chai-http": "^4.3.0",
+    "mocha": "^9.1.1"
   }
 }

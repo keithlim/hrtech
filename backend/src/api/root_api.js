@@ -2,7 +2,7 @@
 const router = require('express-promise-router')();
 
 router.get('/', (req, res) => {
-    res.send('hrtech-be is live! But shoo shoo!').status(200).end();
+    res.send('hrtech-be is live! But shoo shoo!');
 });
 
 module.exports = router;

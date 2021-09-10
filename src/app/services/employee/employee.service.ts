@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { Employee } from 'src/app/interfaces/employee';
 import { UtilityService } from '../utility/utility.service';
 
 @Injectable({
@@ -21,13 +20,13 @@ export class EmployeeService {
 
   getEmployees(minSalary, maxSalary): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}?minSalary=${minSalary}&maxSalary=${maxSalary}&offset=${0}&limit=${30}&sort=%2Bid`).pipe(
-      catchError(this.utilityService.handleError<any>("getEmployees()"))
+      catchError(this.utilityService.handleError)
     )
   }
 
   getMoreEmployees(minSalary, maxSalary, offsetVal): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}?minSalary=${minSalary}&maxSalary=${maxSalary}&offset=${offsetVal}&limit=${30}&sort=%2Bid`).pipe(
-      catchError(this.utilityService.handleError<any>("getEmployees()"))
+      catchError(this.utilityService.handleError)
     )
   }
 

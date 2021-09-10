@@ -1,8 +1,9 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { throwError } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UtilityService {
 
@@ -10,19 +11,18 @@ export class UtilityService {
 
   constructor() { }
 
-  /**
-  * Handle Http operation that failed.
-  * Let the app continue.
-  * @param operation - name of the operation that failed
-  * @param result - optional value to return as the observable result
-  */
-  public handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
+  public handleError(error: HttpErrorResponse) {
+    let errorMessage: string = "";
 
-      console.error(`${operation} failed: ${error.message}`); // log to console instead
+    if (error.error instanceof ErrorEvent) {
+      errorMessage = "An unknown error has occurred: " + error.error;
+    } else {
+      errorMessage = "A HTTP error has occurred: " + `HTTP ${error.status}: ${error.error}`;
+    }
 
-      return of(error);
-    };
+    console.error(errorMessage);
+
+    return throwError(errorMessage);
   }
 
 }

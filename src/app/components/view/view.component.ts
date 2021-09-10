@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Employee } from 'src/app/interfaces/employee';
@@ -26,7 +27,8 @@ export class ViewComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
-    private employeeService: EmployeeService
+    private employeeService: EmployeeService,
+    private _snackBar: MatSnackBar
   ) {
     this.dataSource = new MatTableDataSource(this.employees)
   }
@@ -47,6 +49,7 @@ export class ViewComponent implements OnInit {
       },
       err => {
         console.error(err);
+        this.openSnackBar("Application error occured! Please refresh and try again.", "Close");
       }
     );
   }
@@ -80,6 +83,7 @@ export class ViewComponent implements OnInit {
       },
       err => {
         console.error(err);
+        this.openSnackBar("Application error occured! Please refresh and try again.", "Close");
       }
     );
   }
@@ -88,6 +92,10 @@ export class ViewComponent implements OnInit {
     this.dataSource = new MatTableDataSource(this.employees)
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action);
   }
 
 }
