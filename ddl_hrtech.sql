@@ -7,15 +7,3 @@ CREATE TABLE Employee (
 	name TEXT NOT NULL,
 	salary DECIMAL(10,2) NOT NULL CONSTRAINT employee_salary CHECK(salary >= 0.0)
 );
-
-insert into employee values 
-('01', 'A', 'Mr A', 1234),
-('02', 'B', 'Mr B', 1234);
-
-INSERT INTO employee (id, login, name, salary) 
-VALUES ('03', 'C', 'Mr C', 1223)
-on conflict (id) do update set
-id = excluded.id, 
-login = excluded.login,
-name = excluded.name,
-salary = excluded.salary;

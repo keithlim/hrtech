@@ -5,10 +5,10 @@ var cors = require('cors');
 app.use(cors());
 
 // routes
-const root = require('./routes/root');
-app.use(root);
+const rootRoutes = require('./api/root_api');
+app.use(rootRoutes);
 
-const userRoutes = require('./routes/users');
-app.use('/users', userRoutes)
+const userRoutes = require('./api/users_api');
+app.use('/users', userRoutes);
 
 module.exports = app;

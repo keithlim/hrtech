@@ -1,6 +1,7 @@
 const dotenv = require('dotenv');
 dotenv.config();
 
+// to assist with where to store uploaded csv files
 global.__basedir = __dirname + "/..";
 
 const app = require('./src/app');

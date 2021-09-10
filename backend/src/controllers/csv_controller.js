@@ -2,16 +2,18 @@ const fs = require("fs");
 const fastCsv = require("fast-csv");
 const db = require('../db/pg-util');
 
-var engaged = false;
+engaged = false;
 
 const upload = async (req, res) => {
 
+    // to prevent concurrent requests to this api
     const locked = this.engaged;
-
     if (!locked) {
+
         this.engaged = true;
 
         try {
+
             if (req.file == undefined) {
                 throw `Provided file is undefined.`;
             }
@@ -26,6 +28,7 @@ const upload = async (req, res) => {
             let csvUtil = fastCsv
                 .parse({ headers: true }) // treat first row as headers
                 .on("data", (row) => { // emitted when stream is passing data to consumer
+
                     // filter commented rows
                     if (row.id.charAt(0) !== '#') {
                         // console.log(row);
@@ -33,13 +36,13 @@ const upload = async (req, res) => {
                         const emptyValues = Object.values(row).some(x => x === null || x === '');
                         if (emptyValues) {
                             readStream.destroy();
-                            throw "A record was detected to have an empty column."
+                            throw "A record was detected to have an empty column.";
                         }
 
                         const emptyKeys = Object.keys(row).some(x => x === null || x === '');
                         if (emptyKeys) {
                             readStream.destroy();
-                            throw "A record was detected to have more columns than required."
+                            throw "A record was detected to have more columns than required.";
                         }
 
                         // check if csv has duplicated values for id & login
@@ -54,7 +57,6 @@ const upload = async (req, res) => {
                             readStream.destroy();
                             throw "Duplicated id / login in CSV file.";
                         }
-
                     }
                 })
                 .on("end", () => { // emitted when no more data is consumed from the stream
@@ -63,10 +65,7 @@ const upload = async (req, res) => {
 
                     if (data.length === 0) {
                         this.engaged = false;
-
-                        res.status(400).send({
-                            message: `Empty file detected.`,
-                        });
+                        sendErrRsp(res, 400, `Empty file detected.`);
                     }
                     else {
                         data.forEach(row => {
@@ -79,37 +78,37 @@ const upload = async (req, res) => {
                         db.query(query, undefined, (err, result) => {
                             this.engaged = false;
                             if (err) {
-                                res.status(400).send({
-                                    message: `Error due to failure to conform to business rules.`,
-                                });
+                                sendErrRsp(res, 400, `Error due to failure to conform to business rules.`);
                             }
                             else {
                                 res.send();
                             }
                         });
                     }
-                })
+                });
 
             readStream.pipe(csvUtil)
-                .on("error", (error) => {
+                .on("error", (error) => { // thrown from the csvUtil
                     this.engaged = false;
-                    res.status(400).send({
-                        message: `${error}`,
-                    });
+                    sendErrRsp(res, 400, error);
                 });
-        } catch (error) {
+
+        } catch (error) { // thrown from logic outside csvUtil in try block; e.g. undefined file
             this.engaged = false;
-            res.status(400).send({
-                message: `${error}`,
-            });
+            sendErrRsp(res, 400, error);
         }
+
     }
     else {
-        res.status(503).send({
-            message: `There is a current upload in progress.`,
-        });
+        sendErrRsp(res, 503, `There is a current upload in progress.`);
     }
 
 };
 
-module.exports = { upload };
+function sendErrRsp(res, code, message) {
+    res.status(code).send({
+        message: message,
+    });
+}
+
+module.exports = { upload }
