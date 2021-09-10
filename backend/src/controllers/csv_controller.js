@@ -78,6 +78,7 @@ const upload = async (req, res) => {
                         db.query(query, undefined, (err, result) => {
                             this.engaged = false;
                             if (err) {
+                                console.error(`ERROR Occured During Query: ${err}`);
                                 sendErrRsp(res, 400, `Error due to failure to conform to business rules.`);
                             }
                             else {

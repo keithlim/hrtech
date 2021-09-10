@@ -1,5 +1,4 @@
-DROP TABLE IF EXISTS
-Employee;
+DROP TABLE IF EXISTS Employee;
 
 CREATE TABLE Employee (
 	id TEXT UNIQUE NOT NULL CONSTRAINT employee_id CHECK(id ~ '^[A-Za-z0-9]+$'),
