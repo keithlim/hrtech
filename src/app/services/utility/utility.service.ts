@@ -17,10 +17,14 @@ export class UtilityService {
     if (error.error instanceof ErrorEvent) {
       errorMessage = "An unknown error has occurred: " + error.error;
     } else {
-      errorMessage = "A HTTP error has occurred: " + `HTTP ${error.status}: ${error.error}`;
+      errorMessage = "A HTTP error has occurred: " + `HTTP ${error.status}: ${error.error.message}`;
     }
 
     console.error(errorMessage);
+
+    if (error.error.message !== null && error.error.message !== undefined) {
+      return throwError(error.error.message);
+    }
 
     return throwError(errorMessage);
   }

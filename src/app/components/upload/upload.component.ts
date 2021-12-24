@@ -62,7 +62,8 @@ export class UploadComponent implements OnInit {
       },
       err => {
         console.error(err);
-        this.openSnackBar("Application error occured! Please refresh and try again.", "Close");
+        this.rspFailStatus = err;
+        // this.openSnackBar("Application error occured! Please refresh and try again.", "Close");
         this.uploading = false;
       }
     );
