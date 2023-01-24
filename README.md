@@ -1,6 +1,6 @@
 # HRTECH
 
-A HR management platform built using the PEAN (PostgreSQL, Express, Node.js, Angular) stack.
+A HR management platform built using the PEAN (PostgreSQL, Express, Angular, Node.js) stack.
 
 Current use cases supported
  - uploading of .csv files
@@ -88,7 +88,7 @@ Ensure devDependencies have been installed as the Node.js backend has specified 
 The *test* script will set the environment variable *PG_DATABASE* to the testing database (*test_hrtech*) and auto exit once all tests have finished running. Note that each round of testing will upload several .csv files to the **resources/static/assets/uploads** folder. It is ok to delete them after each round of testing.
 
 ### Coverage
-The files that handle the testing are located [here](https://github.com/keithlim/hrtech/tree/master/backend/test) in this folder. They use [Mocha] JavaScript testing framework and [Chai] JavaScript assertion libray.
+The files that handle the testing are located [here](https://github.com/keithlim/hrtech/tree/master/backend/test) in this folder. They use the [Mocha] JavaScript testing framework and [Chai] JavaScript assertion libray.
 
 - Uploading of Csv files
 - Retrieving employee data
